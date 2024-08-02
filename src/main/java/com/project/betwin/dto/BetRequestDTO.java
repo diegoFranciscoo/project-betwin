@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record BetRequestDTO(
-        @NotNull(message = "O campo não pode ser nulo")
+        @NotNull(message = "The amount cannot be null")
         BigDecimal amountBet,
 
-        @NotNull(message = "O campo não pode ser nulo")
+        @NotNull(message = "The amount cannot be null")
         Long userId
 ) {
 }

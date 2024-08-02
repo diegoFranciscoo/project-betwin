@@ -1,18 +1,17 @@
 package com.project.betwin.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.math.BigDecimal;
 
 public record UserDTO(
         @NotBlank(message = "The name cannot be blank")
+        @Size(min = 3, max = 25)
         String name,
 
         @NotNull(message = "The amount cannot be null")
+        @Positive
         BigDecimal amount,
 
         @NotNull(message = "The age cannot be null")

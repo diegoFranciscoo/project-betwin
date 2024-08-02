@@ -2,6 +2,7 @@ package com.project.betwin.service.impl;
 
 import com.project.betwin.domain.User;
 import com.project.betwin.dto.UserDTO;
+import com.project.betwin.exception.UserException.UserNotFoundException;
 import com.project.betwin.repository.UserRepository;
 import com.project.betwin.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return repository.findById(id).orElseThrow(() -> new UserNotFoundException("The user was not found, please check ID"));
     }
 
     @Override

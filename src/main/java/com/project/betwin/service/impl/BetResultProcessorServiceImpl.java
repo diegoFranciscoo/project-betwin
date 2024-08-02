@@ -3,6 +3,7 @@ package com.project.betwin.service.impl;
 import com.project.betwin.domain.User;
 import com.project.betwin.dto.BetRequestDTO;
 import com.project.betwin.dto.BetResponseDTO;
+import com.project.betwin.exception.BetException.ErrorProcessingBetException;
 import com.project.betwin.service.BetResultProcessorService;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class BetResultProcessorServiceImpl implements BetResultProcessorService 
                 user.setAmount(user.getAmount().add(new BigDecimal(100)));
                 yield new BetResponseDTO("Congratulations you won R$100!!!", user);
             }
-            default -> throw new RuntimeException("Error processing bet");
+            default -> throw new ErrorProcessingBetException("error while processing the bet, please try again later");
         };
     }
 }
