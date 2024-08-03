@@ -5,6 +5,8 @@ import com.project.betwin.dto.BetRequestDTO;
 import com.project.betwin.exception.BetException.InsufficientAmountException;
 import com.project.betwin.service.UserService;
 import com.project.betwin.validate.ValidateBet;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +18,7 @@ public class ValidateUserBetAmount implements ValidateBet {
     @Override
     public void validate(BetRequestDTO bet) {
         User user = service.findById(bet.userId());
-
-        if (user.getAmount().compareTo(bet.amountBet()) < 0 ){
+        if (user.getAmount().compareTo(bet.amountBet()) < 0) {
             throw new InsufficientAmountException("You do not have enough amount to complete the bet");
         }
     }
