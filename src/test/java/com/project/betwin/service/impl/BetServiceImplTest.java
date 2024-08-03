@@ -4,27 +4,23 @@ import com.project.betwin.domain.Bet;
 import com.project.betwin.domain.User;
 import com.project.betwin.dto.BetRequestDTO;
 import com.project.betwin.dto.BetResponseDTO;
+import com.project.betwin.exception.BetException.MinimalAmountException;
 import com.project.betwin.repository.BetRepository;
-import com.project.betwin.service.UserService;
 import com.project.betwin.validate.ValidateBet;
-import com.project.betwin.validate.impl.ValidateMinBetAmount;
-import com.project.betwin.validate.impl.ValidateUserBetAmount;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BetServiceImplTest {
@@ -33,6 +29,12 @@ class BetServiceImplTest {
     private BetServiceImpl betService;
     @Mock
     private BetRepository betRepository;
+    @Mock
+    private List<ValidateBet> validateBets;
+    @Mock
+    private UserServiceImpl userService;
+    @Mock
+    private BetResultProcessorServiceImpl betResultProcessorService;
 
 
     private BetRequestDTO betRequestDTO;
@@ -54,20 +56,24 @@ class BetServiceImplTest {
                 .build();
     }
 
+
     @Test
     @DisplayName("createBet creates new bet and returns BetResponseDTO")
     void createBet_CreateNewBet_WhenSuccessfully() {
-        when(betRepository.save(bet)).thenReturn(bet);
-        Bet betSaved = betRepository.save(bet);
+        when(userService.findById(any())).thenReturn(user);
+        when(betRepository.save(any())).thenReturn(bet);
+        when(betResultProcessorService.betProcessor(any(), any())).thenReturn(betResponseDTO);
+
+        BetResponseDTO betSaved = betService.createBet(betRequestDTO);
 
         assertNotNull(betSaved);
-        assertEquals(betSaved.getId(), bet.getId());
-
+        assertEquals(betSaved.user().getId(), betRequestDTO.userId());
+        assertEquals(betSaved.message(), betResponseDTO.message());
     }
 
     @Test
     @DisplayName("getBet returns list of bet")
-    void getBet_ReturnListOfBet_WhenSuccessfully(){
+    void getBet_ReturnListOfBet_WhenSuccessfully() {
         List<Bet> betList = List.of(bet);
         when(betRepository.findAll()).thenReturn(betList);
         List<Bet> getBet = betService.getBet();
