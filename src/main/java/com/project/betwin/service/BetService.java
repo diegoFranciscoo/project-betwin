@@ -7,6 +7,7 @@ import com.project.betwin.dto.BetResponseDTO;
 import java.util.List;
 
 public interface BetService {
-    public BetResponseDTO createBet(BetRequestDTO bet);
-    public List<Bet> getBet();
+    BetResponseDTO createBet(BetRequestDTO bet);
+
+    List<Bet> getBet();
 }

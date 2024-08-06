@@ -4,7 +4,6 @@ import com.project.betwin.domain.Bet;
 import com.project.betwin.domain.User;
 import com.project.betwin.dto.BetRequestDTO;
 import com.project.betwin.dto.BetResponseDTO;
-import com.project.betwin.exception.BetException.MinimalAmountException;
 import com.project.betwin.repository.BetRepository;
 import com.project.betwin.validate.ValidateBet;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class BetServiceImplTest {

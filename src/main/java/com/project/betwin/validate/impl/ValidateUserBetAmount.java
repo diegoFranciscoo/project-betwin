@@ -5,8 +5,6 @@ import com.project.betwin.dto.BetRequestDTO;
 import com.project.betwin.exception.BetException.InsufficientAmountException;
 import com.project.betwin.service.UserService;
 import com.project.betwin.validate.ValidateBet;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
