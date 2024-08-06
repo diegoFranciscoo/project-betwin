@@ -16,21 +16,29 @@ public class BetResultProcessorServiceImpl implements BetResultProcessorService 
 
     @Override
     public BetResponseDTO betProcessor(BetRequestDTO bet, User user) {
-        int random = RANDOM_NUMBER.nextInt(5) + 1;
+        int random = RANDOM_NUMBER.nextInt(8) + 1;
+
+        user.setAmount(user.getAmount().subtract(bet.amountBet()));
 
         return switch (random) {
-            case 1, 5, 4 -> {
-                user.setAmount(user.getAmount().subtract(bet.amountBet()));
-                yield new BetResponseDTO("You Lost :(", user);
+            case 1, 5 -> {
+                user.setAmount(bet.amountBet().multiply(BigDecimal.valueOf(1.5)).add(user.getAmount()));
+                yield new BetResponseDTO("\uD83D\uDFE3 Purple 1.5x", user);
             }
             case 2 -> {
-                user.setAmount(user.getAmount().add(new BigDecimal(50)));
-                yield new BetResponseDTO("Congratulations you won R$50!!!", user);
+                user.setAmount(bet.amountBet().multiply(BigDecimal.valueOf(2)).add(user.getAmount()));
+                yield new BetResponseDTO("⚫ Black 2.0x", user);
             }
             case 3 -> {
-                user.setAmount(user.getAmount().add(new BigDecimal(100)));
-                yield new BetResponseDTO("Congratulations you won R$100!!!", user);
+                user.setAmount(bet.amountBet().multiply(BigDecimal.valueOf(3.5)).add(user.getAmount()));
+                yield new BetResponseDTO("⚪ White 3.5x", user);
             }
+            case 6, 7, 4 -> {
+                user.setAmount(bet.amountBet().multiply(BigDecimal.valueOf(0.5)).add(user.getAmount()));
+                yield new BetResponseDTO("\uD83D\uDD34 Red 0.5x", user);
+            }
+            case 8 -> new BetResponseDTO("\uD83D\uDFE8 Yellow 0.0x", user);
+
             default -> throw new ErrorProcessingBetException("error while processing the bet, please try again later");
         };
     }
