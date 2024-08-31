@@ -16,6 +16,7 @@ Um projeto simples de uma casa de apostas, onde um usuário registrado pode faze
 - Mockito
 - Docker
 - MySQL
+- Swagger
 
 # Como executar
 - Digite "docker-compose up" no terminal
